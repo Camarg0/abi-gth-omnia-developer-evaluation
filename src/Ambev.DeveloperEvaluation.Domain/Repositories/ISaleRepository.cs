@@ -5,7 +5,7 @@ namespace Ambev.DeveloperEvaluation.Domain.Repositories;
 /// <summary>
 /// Repository interface for User entity operations
 /// </summary>
-public class ISaleRepository
+public interface ISaleRepository
 {
     Task<Sale> CreateAsync(Sale sale, CancellationToken cancellationToken = default);
 
@@ -15,9 +15,9 @@ public class ISaleRepository
 
     Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 
-    Task<Sale> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
 
-    Task<Sale?> GetByCustomerIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Sale>> GetByCustomerIdAsync(Guid id, CancellationToken cancellationToken = default);
 
-    Task<Sale?> GetByBranchIdAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<IEnumerable<Sale>> GetByBranchIdAsync(Guid id, CancellationToken cancellationToken = default);
 }
