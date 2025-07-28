@@ -1,5 +1,6 @@
-using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using FluentValidation;
+
+namespace Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 
 public class CancelSaleValidator : AbstractValidator<CancelSaleCommand>
 {

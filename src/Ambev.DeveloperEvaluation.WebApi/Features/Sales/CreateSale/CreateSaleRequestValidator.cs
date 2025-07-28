@@ -1,11 +1,10 @@
-using Ambev.DeveloperEvaluation.Domain.Validation;
 using FluentValidation;
 
-namespace Ambev.DeveloperEvaluation.Application.Sales.CreateSale;
+namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales.CreateSale;
 
-public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
+public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
 {
-    public CreateSaleCommandValidator()
+    public CreateSaleRequestValidator() 
     {
         RuleFor(sale => sale.SaleNumber)
             .NotEmpty()
@@ -25,10 +24,6 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
             .NotEmpty()
             .WithMessage("Customer must have a name");
 
-        RuleFor(sale => sale.CustomerEmail)
-            .SetValidator(new EmailValidator())
-            .When(sale => !string.IsNullOrEmpty(sale.CustomerEmail));
-
         RuleFor(sale => sale.BranchId)
             .NotEmpty()
             .WithMessage("Branch must have an id");
@@ -42,14 +37,14 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
             .WithMessage("Sale must have at least one item");
 
         RuleForEach(sale => sale.Items)
-            .SetValidator(new CreateSaleItemValidator())
+            .SetValidator(new CreateSaleItemRequestValidator())
             .When(sale => sale.Items != null && sale.Items.Any());
     }
 }
 
-public class CreateSaleItemValidator : AbstractValidator<CreateSaleItemCommandRequest>
+public class CreateSaleItemRequestValidator : AbstractValidator<CreateSaleItemRequest>
 {
-    public CreateSaleItemValidator()
+    public CreateSaleItemRequestValidator()
     {
         RuleFor(saleItem => saleItem.Quantity)
             .LessThanOrEqualTo(20).WithMessage("The maximum limit is 20 items per product")

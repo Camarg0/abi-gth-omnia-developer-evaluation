@@ -1,6 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
-using AutoMapper;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
@@ -8,12 +7,10 @@ namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleResponse>
 {
     private readonly ISaleRepository _saleRepository;
-    private readonly IMapper _mapper;
 
-    public DeleteSaleHandler(ISaleRepository saleRepository, IMapper mapper)
+    public DeleteSaleHandler(ISaleRepository saleRepository)
     {
         _saleRepository = saleRepository;
-        _mapper = mapper;
     }
 
     public async Task<DeleteSaleResponse> Handle(DeleteSaleCommand command, CancellationToken cancellationToken)

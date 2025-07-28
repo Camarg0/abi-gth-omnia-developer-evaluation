@@ -11,10 +11,6 @@ public class SaleItemValidator : AbstractValidator<SaleItem>
             .LessThanOrEqualTo(20).WithMessage("The maximum limit is 20 items per product")
             .GreaterThan(0).WithMessage("The number of items must be more than 0");
 
-        RuleFor(saleItem => saleItem.Id)
-            .NotEmpty()
-            .WithMessage("Sale item must have an id");
-
         RuleFor(saleItem => saleItem.UnitPrice)
             .GreaterThan(0)
             .WithMessage("The price of the item cannot be zero");

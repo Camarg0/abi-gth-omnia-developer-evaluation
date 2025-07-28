@@ -18,7 +18,7 @@ public class CreateSaleProfiler : Profile
             .ForMember(dest => dest.CancelledAt, opt => opt.Ignore())
             .ForMember(dest => dest.Items, opt => opt.Ignore()); // Items are added manually in handler
 
-        CreateMap<CreateSaleItemRequest, SaleItem>()
+        CreateMap<CreateSaleItemCommandRequest, SaleItem>()
             .ForMember(dest => dest.Id, opt => opt.Ignore())
             .ForMember(dest => dest.SaleId, opt => opt.Ignore())
             .ForMember(dest => dest.Sale, opt => opt.Ignore())
