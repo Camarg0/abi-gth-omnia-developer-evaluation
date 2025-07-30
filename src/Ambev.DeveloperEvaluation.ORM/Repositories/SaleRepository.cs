@@ -21,29 +21,51 @@ public class SaleRepository : ISaleRepository
         return sale;
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(Sale sale, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _context.Sales.Remove(sale);
+        await _context.SaveChangesAsync(cancellationToken);
+        return true;
+    }
+
+    public async Task<bool> CancelAsync(Sale sale, CancellationToken cancellationToken = default)
+    {
+        sale.Cancel();
+        _context.Sales.Update(sale);
+        await _context.SaveChangesAsync(cancellationToken);
+        return true;
     }
 
     public async Task<IEnumerable<Sale>> GetByBranchIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.Sales
+            .Include(_ => _.Items)
+            .Where(_ => _.BranchId == id)
+            .OrderByDescending(_ => _.SaleDate)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<IEnumerable<Sale>> GetByCustomerIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.Sales
+            .Include(_ => _.Items)
+            .Where(_ => _.CustomerId == id)
+            .OrderByDescending(_ => _.SaleDate)
+            .ToListAsync(cancellationToken);
     }
 
     public async Task<Sale?> GetByIdAsync(Guid id, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        return await _context.Sales
+            .Include(_ => _.Items)
+            .FirstOrDefaultAsync(_ => _.Id == id, cancellationToken);
     }
 
     public async Task<Sale?> GetBySaleNumberAsync(string saleNumber, CancellationToken cancellationToken = default)
     {
-        return await _context.Sales.FirstOrDefaultAsync(x => x.SaleNumber == saleNumber, cancellationToken);
+        return await _context.Sales
+            .Include(_ => _.Items)
+            .FirstOrDefaultAsync(_ => _.SaleNumber == saleNumber, cancellationToken);
     }
 
     public async Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default)
