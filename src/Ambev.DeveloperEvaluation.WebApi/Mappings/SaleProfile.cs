@@ -10,6 +10,10 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSaleByNumber;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSalesByCustomerId;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.GetSalesByBranchId;
 using AutoMapper;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
+using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
+using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Mappings;
 
@@ -26,6 +30,18 @@ public class SaleProfile : Profile
         CreateMap<CreateSaleResult, CreateSaleResponse>();
         CreateMap<CreateSaleItemResult, CreateSaleItemResponse>();
 
+        // DeleteSales
+        // http -> app
+        CreateMap<DeleteSaleRequest, DeleteSaleCommand>();
+        // app -> http
+        CreateMap<DeleteSaleResult, DeleteSaleResponse>();
+
+        // Cancel
+        // http -> app
+        CreateMap<CancelSaleRequest, CancelSaleCommand>();
+        // app -> http
+        CreateMap<CancelSaleResult, CancelSaleResponse>();
+        
         // GetSale mappings
         // http -> application
         CreateMap<GetSaleRequest, GetSaleQuery>();

@@ -15,7 +15,9 @@ public interface ISaleRepository
 
     Task<Sale> UpdateAsync(Sale sale, CancellationToken cancellationToken = default);
 
-    Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default);
+    Task<bool> DeleteAsync(Sale sale, CancellationToken cancellationToken = default);
+
+    Task<bool> CancelAsync(Sale sale, CancellationToken cancellationToken = default);
 
     Task<IEnumerable<Sale>> GetByCustomerIdAsync(Guid id, CancellationToken cancellationToken = default);
 

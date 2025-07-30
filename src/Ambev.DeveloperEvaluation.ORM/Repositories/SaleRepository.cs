@@ -21,9 +21,19 @@ public class SaleRepository : ISaleRepository
         return sale;
     }
 
-    public async Task<bool> DeleteAsync(Guid id, CancellationToken cancellationToken = default)
+    public async Task<bool> DeleteAsync(Sale sale, CancellationToken cancellationToken = default)
     {
-        throw new NotImplementedException();
+        _context.Sales.Remove(sale);
+        await _context.SaveChangesAsync(cancellationToken);
+        return true;
+    }
+
+    public async Task<bool> CancelAsync(Sale sale, CancellationToken cancellationToken = default)
+    {
+        sale.Cancel();
+        _context.Sales.Update(sale);
+        await _context.SaveChangesAsync(cancellationToken);
+        return true;
     }
 
     public async Task<IEnumerable<Sale>> GetByBranchIdAsync(Guid id, CancellationToken cancellationToken = default)

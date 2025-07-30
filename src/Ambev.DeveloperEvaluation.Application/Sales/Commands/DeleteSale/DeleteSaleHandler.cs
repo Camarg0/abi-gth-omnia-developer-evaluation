@@ -1,10 +1,10 @@
-using System.ComponentModel.DataAnnotations;
 using Ambev.DeveloperEvaluation.Domain.Repositories;
+using FluentValidation;
 using MediatR;
 
 namespace Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 
-public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleResponse>
+public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleResult>
 {
     private readonly ISaleRepository _saleRepository;
 
@@ -13,31 +13,32 @@ public class DeleteSaleHandler : IRequestHandler<DeleteSaleCommand, DeleteSaleRe
         _saleRepository = saleRepository;
     }
 
-    public async Task<DeleteSaleResponse> Handle(DeleteSaleCommand command, CancellationToken cancellationToken)
+    public async Task<DeleteSaleResult> Handle(DeleteSaleCommand command, CancellationToken cancellationToken)
     {
         var validator = new DeleteSaleValidator();
         var validationResult = await validator.ValidateAsync(command, cancellationToken);
+        
         if (!validationResult.IsValid)
         {
-            throw new ValidationException(string.Join("; ", validationResult.Errors.Select(e => $"{e.PropertyName}: {e.ErrorMessage}")));
+            throw new ValidationException(validationResult.Errors);
         }
 
         var existingSale = await _saleRepository.GetByIdAsync(command.Id, cancellationToken);
         if (existingSale == null)
         {
-            throw new InvalidOperationException($"The sale you are trying to delete does not exist");
+            throw new KeyNotFoundException($"The sale you are trying to cancel does not exist");
         }
 
-        var success = await _saleRepository.DeleteAsync(command.Id, cancellationToken);
+        var success = await _saleRepository.DeleteAsync(existingSale, cancellationToken);
 
         if (!success)
         {
-            throw new InvalidOperationException($"An error occurred while deleting the sale with id {command.Id}");
+            throw new InvalidOperationException($"An error occurred while deleting the sale with ID {command.Id}");
         }
 
-        return new DeleteSaleResponse
+        return new DeleteSaleResult
         {
-            Success = true
+            Id = command.Id
         };
     }
 }
