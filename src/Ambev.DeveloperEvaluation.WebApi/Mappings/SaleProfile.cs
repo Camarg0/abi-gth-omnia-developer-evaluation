@@ -26,11 +26,11 @@ public class SaleProfile : Profile
         // CreateSale mappings
         // http -> application
         CreateMap<CreateSaleRequest, CreateSaleCommand>();
-        CreateMap<CreateSaleItemRequest, CreateSaleItemCommand>();
+        CreateMap<CreateItemSaleRequest, CreateSaleItemCommand>();
 
         // application -> http
         CreateMap<CreateSaleResult, CreateSaleResponse>();
-        CreateMap<CreateSaleItemResult, CreateSaleItemResponse>();
+        CreateMap<CreateSaleItemResult, CreateItemSaleResponse>();
 
         // UpdateSale mappings
         // http -> application

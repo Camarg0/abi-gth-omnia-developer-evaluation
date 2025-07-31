@@ -11,10 +11,10 @@ public class CreateSaleResponse
     public decimal TotalAmount { get; set; }
     public string Status { get; set; } = string.Empty;
     public DateTime CreatedAt { get; set; }
-    public List<CreateSaleItemResponse> Items { get; set; } = new List<CreateSaleItemResponse>();
+    public List<CreateItemSaleResponse> Items { get; set; } = new List<CreateItemSaleResponse>();
 }
 
-public class CreateSaleItemResponse()
+public class CreateItemSaleResponse()
 {
     public Guid Id { get; set; }
     public string ProductName { get; set; } = string.Empty;

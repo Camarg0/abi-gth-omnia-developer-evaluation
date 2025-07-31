@@ -4,6 +4,7 @@ using Ambev.DeveloperEvaluation.Domain.Repositories;
 using Ambev.DeveloperEvaluation.Unit.Application.TestData;
 using AutoMapper;
 using FluentAssertions;
+using MediatR;
 using NSubstitute;
 using Xunit;
 using ValidationException = System.ComponentModel.DataAnnotations.ValidationException;
@@ -14,13 +15,14 @@ namespace Ambev.DeveloperEvaluation.Unit.Application
     {
         private readonly ISaleRepository _saleRepository;
         private readonly IMapper _mapper;
+        private readonly IMediator _mediator;
         private readonly CreateSaleHandler _handler;
 
         public CreateSaleHandlerTests()
         {
             _saleRepository = Substitute.For<ISaleRepository>();
             _mapper = Substitute.For<IMapper>();
-            _handler = new CreateSaleHandler(_saleRepository, _mapper);
+            _handler = new CreateSaleHandler(_saleRepository, _mapper, _mediator);
         }
 
         [Fact]

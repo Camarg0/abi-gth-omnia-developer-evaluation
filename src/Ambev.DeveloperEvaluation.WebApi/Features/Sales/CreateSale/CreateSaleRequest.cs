@@ -11,10 +11,10 @@ public class CreateSaleRequest
     public string CustomerEmail { get; set; } = string.Empty;
     public Guid BranchId { get; set; }
     public string BranchName { get; set; } = string.Empty;
-    public ICollection<CreateSaleItemRequest> Items { get; set; } = new List<CreateSaleItemRequest>();
+    public ICollection<CreateItemSaleRequest> Items { get; set; } = new List<CreateItemSaleRequest>();
 }
 
-public class CreateSaleItemRequest
+public class CreateItemSaleRequest
 {
     public Guid ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;
