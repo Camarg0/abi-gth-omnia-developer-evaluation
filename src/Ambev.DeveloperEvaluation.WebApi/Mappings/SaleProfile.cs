@@ -14,6 +14,8 @@ using Ambev.DeveloperEvaluation.WebApi.Features.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
 using Ambev.DeveloperEvaluation.WebApi.Features.Sales.CancelSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.Commands.UpdateSale;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Mappings;
 
@@ -24,11 +26,20 @@ public class SaleProfile : Profile
         // CreateSale mappings
         // http -> application
         CreateMap<CreateSaleRequest, CreateSaleCommand>();
-        CreateMap<CreateSaleItemRequest, CreateSaleItemCommandRequest>();
+        CreateMap<CreateSaleItemRequest, CreateSaleItemCommand>();
 
         // application -> http
         CreateMap<CreateSaleResult, CreateSaleResponse>();
         CreateMap<CreateSaleItemResult, CreateSaleItemResponse>();
+
+        // UpdateSale mappings
+        // http -> application
+        CreateMap<UpdateSaleRequest, UpdateSaleCommand>();
+        CreateMap<UpdateSaleItemSaleRequest, UpdateSaleItemCommand>();
+
+        // application -> http
+        CreateMap<UpdateSaleResult, UpdateSaleResponse>();
+        CreateMap<UpdateSaleItemResult, UpdateSaleItemSaleResponse>();
 
         // DeleteSales
         // http -> app

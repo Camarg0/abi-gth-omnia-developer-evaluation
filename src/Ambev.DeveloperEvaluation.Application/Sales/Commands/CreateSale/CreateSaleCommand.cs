@@ -12,7 +12,7 @@ public class CreateSaleCommand : IRequest<CreateSaleResult>
     public string CustomerEmail { get; set; } = string.Empty;
     public Guid BranchId { get; set; }
     public string BranchName { get; set; } = string.Empty;
-    public ICollection<CreateSaleItemCommandRequest> Items { get; set; } = new List<CreateSaleItemCommandRequest>();
+    public ICollection<CreateSaleItemCommand> Items { get; set; } = new List<CreateSaleItemCommand>();
 
     public ValidationResultDetail Validate()
     {
@@ -26,7 +26,7 @@ public class CreateSaleCommand : IRequest<CreateSaleResult>
     }
 }
 
-public class CreateSaleItemCommandRequest
+public class CreateSaleItemCommand
 {
     public Guid ProductId { get; set; }
     public string ProductName { get; set; } = string.Empty;

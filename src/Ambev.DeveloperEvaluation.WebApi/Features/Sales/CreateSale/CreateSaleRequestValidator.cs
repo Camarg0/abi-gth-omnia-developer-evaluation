@@ -58,12 +58,8 @@ public class CreateSaleItemRequestValidator : AbstractValidator<CreateSaleItemRe
             .NotEmpty()
             .WithName("The product must have an id");
 
-        RuleFor(saleItem => saleItem.ProductName)
-            .NotEmpty()
-            .WithName("The product must have a name");
-        
         RuleFor(saleItem => saleItem.ProductDescription)
             .NotEmpty()
-            .WithName("The product must have a description");
+            .WithName("The product must have a name");
     }
 }

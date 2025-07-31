@@ -18,7 +18,7 @@ public class SaleItemValidator : AbstractValidator<SaleItem>
         RuleFor(saleItem => saleItem.ProductId)
             .NotEmpty()
             .WithName("The product must have an id");
-        
+
         RuleFor(saleItem => saleItem.ProductDescription)
             .NotEmpty()
             .WithName("The product must have a description");

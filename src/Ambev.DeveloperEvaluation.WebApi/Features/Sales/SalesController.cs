@@ -16,6 +16,8 @@ using MediatR;
 using Microsoft.AspNetCore.Mvc;
 using Ambev.DeveloperEvaluation.Application.Sales.DeleteSale;
 using Ambev.DeveloperEvaluation.Application.Sales.CancelSale;
+using Ambev.DeveloperEvaluation.WebApi.Features.Sales.UpdateSale;
+using Ambev.DeveloperEvaluation.Application.Sales.Commands.UpdateSale;
 
 namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
 {
@@ -288,6 +290,47 @@ namespace Ambev.DeveloperEvaluation.WebApi.Features.Sales
                     Success = true,
                     Message = $"Sale with ID '{id}' cancelled succesfully",
                     Data = _mapper.Map<CancelSaleResponse>(response)
+                });
+            }
+            catch (KeyNotFoundException)
+            {
+                return NotFound(new ApiResponse
+                {
+                    Success = false,
+                    Message = $"Could not find any sale with ID '{id}'"
+                });
+            }
+        }
+
+        [HttpPut("{id}")]
+        [ProducesResponseType(typeof(ApiResponseWithData<UpdateSaleResponse>), StatusCodes.Status200OK)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status400BadRequest)]
+        [ProducesResponseType(typeof(ApiResponse), StatusCodes.Status404NotFound)]
+        public async Task<IActionResult> UpdateSale([FromRoute] Guid id, [FromBody] UpdateSaleRequest request, CancellationToken cancellationToken)
+        {
+            try
+            {
+                // Ensure the route id matches the request id
+                request.Id = id;
+
+                // http validations
+                var validator = new UpdateSaleRequestValidator();
+                var validationResult = await validator.ValidateAsync(request, cancellationToken);
+
+                if (!validationResult.IsValid)
+                    return BadRequest(validationResult.Errors);
+
+                // mapping to the command (application layer)
+                var command = _mapper.Map<UpdateSaleCommand>(request);
+
+                // sending to the application layer
+                var response = await _mediator.Send(command, cancellationToken);
+
+                return Ok(new ApiResponseWithData<UpdateSaleResponse>
+                {
+                    Success = true,
+                    Message = $"Sale with ID '{id}' updated successfully",
+                    Data = _mapper.Map<UpdateSaleResponse>(response)
                 });
             }
             catch (KeyNotFoundException)
