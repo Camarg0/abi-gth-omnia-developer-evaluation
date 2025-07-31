@@ -1,7 +1,7 @@
 # Developer Evaluation Project - NTT DATA + AMBEV
 
 ## Run the project
-To run the project, please read (/.doc/starting.md) and follow the instructions
+To run the project, please read [Starting](/.doc/starting.md) and follow the instructions
 
 `READ CAREFULLY`
 
