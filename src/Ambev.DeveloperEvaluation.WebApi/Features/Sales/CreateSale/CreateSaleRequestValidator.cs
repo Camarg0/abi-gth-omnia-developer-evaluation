@@ -37,14 +37,14 @@ public class CreateSaleRequestValidator : AbstractValidator<CreateSaleRequest>
             .WithMessage("Sale must have at least one item");
 
         RuleForEach(sale => sale.Items)
-            .SetValidator(new CreateSaleItemRequestValidator())
+            .SetValidator(new CreateItemSaleRequestValidator())
             .When(sale => sale.Items != null && sale.Items.Any());
     }
 }
 
-public class CreateSaleItemRequestValidator : AbstractValidator<CreateSaleItemRequest>
+public class CreateItemSaleRequestValidator : AbstractValidator<CreateItemSaleRequest>
 {
-    public CreateSaleItemRequestValidator()
+    public CreateItemSaleRequestValidator()
     {
         RuleFor(saleItem => saleItem.Quantity)
             .LessThanOrEqualTo(20).WithMessage("The maximum limit is 20 items per product")
