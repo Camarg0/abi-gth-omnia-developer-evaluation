@@ -47,12 +47,12 @@ public class CreateSaleCommandValidator : AbstractValidator<CreateSaleCommand>
     }
 }
 
-public class CreateSaleItemValidator : AbstractValidator<CreateSaleItemCommandRequest>
+public class CreateSaleItemValidator : AbstractValidator<CreateSaleItemCommand>
 {
     public CreateSaleItemValidator()
     {
         RuleFor(saleItem => saleItem.Quantity)
-            .LessThanOrEqualTo(20).WithMessage("The maximum limit is 20 items per product")
+            .LessThanOrEqualTo(20).WithMessage("Cannot exceed the maximum of 20 items per product")
             .GreaterThan(0).WithMessage("The number of items must be more than 0");
 
         RuleFor(saleItem => saleItem.UnitPrice)
@@ -66,9 +66,5 @@ public class CreateSaleItemValidator : AbstractValidator<CreateSaleItemCommandRe
         RuleFor(saleItem => saleItem.ProductName)
             .NotEmpty()
             .WithName("The product must have a name");
-        
-        RuleFor(saleItem => saleItem.ProductDescription)
-            .NotEmpty()
-            .WithName("The product must have a description");
     }
 }

@@ -47,7 +47,7 @@ public class Sale : BaseEntity
         if (!validationResult.IsValid)
             throw new ArgumentException(string.Join("\n", validationResult.Errors.Select(e => $"{e.Error}: {e.Detail}")));
 
-        var existingItem = Items.FirstOrDefault(x => x.ProductId == saleItem.ProductId && x.Status == SaleItemStatus.Active);
+        var existingItem = Items.FirstOrDefault(x => x.Id == saleItem.Id && x.Status == SaleItemStatus.Active);
 
         if (existingItem != null) // If the item exists already
         {
@@ -72,7 +72,25 @@ public class Sale : BaseEntity
         UpdatedAt = DateTime.UtcNow;
     }
 
-    // gonna remove by the guid, which is the item Identificaton
+    public void UpdateItem(Guid itemId, string productName, string productDescription, int quantity, decimal unitPrice)
+    {
+        var existingItem = Items.FirstOrDefault(x => x.Id == itemId && x.Status == SaleItemStatus.Active);
+
+        if (existingItem == null)
+            throw new ArgumentException($"Sale item with Id {itemId} not found or not active");
+
+        existingItem.ProductName = productName;
+        existingItem.ProductDescription = productDescription;
+        existingItem.Quantity = quantity;
+        existingItem.UnitPrice = unitPrice;
+        existingItem.UpdatedAt = DateTime.UtcNow;
+        existingItem.CalculateDiscount();
+        existingItem.CalculateTotalAmountItem();
+
+        CalculateTotalAmount();
+        UpdatedAt = DateTime.UtcNow;
+    }
+
     public void RemoveItem(Guid itemId)
     {
         var existingItem = Items.FirstOrDefault(x => x.Id == itemId);
@@ -81,6 +99,16 @@ public class Sale : BaseEntity
 
         existingItem.Cancel();
 
+        CalculateTotalAmount();
+        UpdatedAt = DateTime.UtcNow;
+    }
+
+    public void ClearItems()
+    {
+        if (Status != SaleStatus.Active)
+            throw new InvalidOperationException("The sale must be Active to be have its items cleared");
+
+        Items.Clear();
         CalculateTotalAmount();
         UpdatedAt = DateTime.UtcNow;
     }
