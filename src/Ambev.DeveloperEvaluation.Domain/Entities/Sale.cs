@@ -47,7 +47,7 @@ public class Sale : BaseEntity
         if (!validationResult.IsValid)
             throw new ArgumentException(string.Join("\n", validationResult.Errors.Select(e => $"{e.Error}: {e.Detail}")));
 
-        var existingItem = Items.FirstOrDefault(x => x.Id == saleItem.Id && x.Status == SaleItemStatus.Active);
+        var existingItem = Items.FirstOrDefault(x => x.ProductId == saleItem.ProductId && x.Status == SaleItemStatus.Active);
 
         if (existingItem != null) // If the item exists already
         {
